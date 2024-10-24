@@ -1,0 +1,16 @@
+@import '../../styles/mixins.scss';
+@import '../../styles//variables.scss';
+
+.layoutContainer{
+    @include border-radius(0.8rem);
+    width: 80%;
+    margin: 2vh auto;
+    background-color: $background-white;
+    height: 97vh;
+
+    .title{
+        text-align: center;
+        padding: 2rem;
+        font-weight: 800;
+    }
+}

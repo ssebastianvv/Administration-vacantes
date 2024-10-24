@@ -1,0 +1,76 @@
+// backgraound
+$MoradoClaro: rgb(192, 132, 252);
+$Rosa: rgb(236, 72, 153);
+$Rojo: rgb(239, 68, 68);
+
+//backgraound children
+$Blanco: rgb(255, 255, 255);
+
+//text
+$color-tittle:rgb(31, 41, 55);
+$color-subtittle:rgb(75, 85, 99);
+$color-text: rgb(107, 114, 128);
+$color-text-with-backgraound: var($Blanco);
+
+//buttons vacants
+
+$button-vacants-normal: rgb(168, 85, 247);
+$button-vacants-hover: rgb(147, 51, 234);
+
+//buttons companies
+$button-companies-normal: rgb(236, 72, 153);
+$button-companies-hover: rgb(219, 39, 119);
+
+//buttons delete
+
+$button-delete-texto: rgb(239, 68, 68);
+$button-delete-hover: rgb(220, 38, 38);
+$button-delete-hover-texto: rgb(254, 242, 242);
+
+
+
+$Border-gris: rgb(229, 231, 235);
+
+// Estilos globales
+body {
+    background-color: $MoradoClaro;
+    color: $color-text;
+}
+
+// Card styles
+
+
+// Form styles
+.form-container {
+    background-color: $Blanco;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid $Border-gris;
+    margin-bottom: 20px;
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid $Border-gris;
+        border-radius: 4px;
+
+        &:focus {
+            outline: none;
+            border-color: $MoradoClaro;
+        }
+    }
+
+    button {
+        background-color: $button-vacants-normal;
+        color: $color-text-with-backgraound;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $button-vacants-hover;
+        }
+    }
+}

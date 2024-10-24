@@ -1,0 +1,69 @@
+.modalContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(126, 113, 165, 0.8); // Fondo morado claro semi-transparente
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; // Asegúrate de que esté por encima de otros elementos
+}
+
+.modalContent {
+    background: #af6394; // Color de fondo del modal
+    padding: 20px;
+    border-radius: 10px; // Bordes más redondeados
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); // Sombra más suave
+    width: 400px; // Ajusta según sea necesario
+    max-width: 90%; // Responsivo para pantallas pequeñas
+    position: relative; // Para el botón de cerrar
+}
+
+.containerButton {
+    display: flex;
+    justify-content: flex-end; // Alinear el botón de cerrar a la derecha
+    margin-bottom: 20px; // Espacio entre el botón y el contenido
+}
+
+.closeButton {
+    background: none; // Sin fondo
+    border: none; // Sin borde
+    cursor: pointer; // Cambia el cursor al pasar sobre el botón
+    color: #333; // Color del ícono de cerrar
+    font-size: 1.5rem; // Tamaño del ícono
+    transition: color 0.3s; // Transición suave para el color
+
+    &:hover {
+        color: #ff6347; // Cambiar a un color más cálido al pasar el mouse
+    }
+}
+
+.modalTitle {
+    font-size: 1.5rem; // Tamaño del título
+    margin-bottom: 15px; // Espacio debajo del título
+    text-align: center; // Centrar el título
+    color: #4a0072; // Color del texto del título
+}
+
+.modalBody {
+    text-align: left; // Alinear texto del contenido a la izquierda
+    color: #444; // Color del texto del contenido
+}
+
+// Estilos para los inputs dentro del modal
+.inputField {
+    width: 100%; // Ocupa todo el ancho disponible
+    padding: 10px; // Espacio interno
+    margin-bottom: 15px; // Espacio entre los inputs
+    border: 1px solid #ccc; // Borde sutil
+    border-radius: 5px; // Bordes redondeados
+    font-size: 1rem; // Tamaño de fuente
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); // Sombra interna
+
+    &:focus {
+        border-color: #4a0072; // Cambiar color del borde al enfocar
+        outline: none; // Sin contorno
+    }
+}
