@@ -1,36 +1,56 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../atoms/button/Button"; 
 import Card from "../card/card";     
 import Modal from "../../atoms/modal/modal"; 
 import ModalForm from "../modal/modal.form"; 
+import { CoderService } from '../../../services/admi.service';
+import { IVacancy, ICompany } from '../../../interface/interfaces';
 
 interface FormWithCardsProps {
     type: "vacancy" | "company";
 }
 
 const FormWithCards: React.FC<FormWithCardsProps> = ({ type }) => {
-    const [cards, setCards] = useState<{ [key: number]: any }>({});
+    const [cards, setCards] = useState<(IVacancy | ICompany)[]>([]); // Permite ambos tipos
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedData, setSelectedData] = useState<any>(null); 
+    const [selectedData, setSelectedData] = useState<IVacancy | ICompany | null>(null);
+    const coderService = new CoderService();
 
-    const handleFormSubmit = (data: any) => {
-        setCards((prevCards) => ({
-            ...prevCards,
-            [Object.keys(prevCards).length]: data,
-        }));
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await coderService.findAll();
+                setCards(data.content); // Ajusta según tu respuesta
+            } catch (error) {
+                console.error('Error al obtener los datos:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handleFormSubmit = async (data: IVacancy | ICompany) => {
+        try {
+            const newData = await coderService.create(data); // El servicio manejará el tipo
+            setCards((prevCards) => [...prevCards, newData]);
+        } catch (error) {
+            console.error('Error al crear los datos:', error);
+        }
     };
 
     const handleEdit = (index: number) => {
         const cardToEdit = cards[index];
-        setSelectedData({ ...cardToEdit, index }); 
-        setIsModalVisible(true); 
+        setSelectedData(cardToEdit);
+        setIsModalVisible(true);
     };
 
-    const handleDelete = (index: number) => {
-        const newCards = { ...cards };
-        delete newCards[index];
-        setCards(newCards);
+    const handleDelete = async (id: string) => {
+        try {
+            await coderService.destroy(id);
+            setCards(cards.filter(card => card.id !== id));
+        } catch (error) {
+            console.error('Error al eliminar los datos:', error);
+        }
     };
 
     return (
@@ -45,13 +65,12 @@ const FormWithCards: React.FC<FormWithCardsProps> = ({ type }) => {
             <Modal isVisible={isModalVisible} onClose={() => setIsModalVisible(false)}>
                 <ModalForm 
                     type={type} 
-                    onSubmit={(data) => {
+                    onSubmit={async (data) => {
                         if (selectedData) {
-                            
-                            const updatedCards = { ...cards, [selectedData.index]: data };
-                            setCards(updatedCards);
+                            await coderService.update(selectedData.id.toString(), data); // El servicio manejará el tipo
+                            setCards(cards.map(card => card.id === selectedData.id ? { ...card, ...data } : card));
                         } else {
-                            handleFormSubmit(data); 
+                            handleFormSubmit(data);
                         }
                         setIsModalVisible(false);
                         setSelectedData(null); 
@@ -62,12 +81,12 @@ const FormWithCards: React.FC<FormWithCardsProps> = ({ type }) => {
             </Modal>
 
             <div className="cards-container">
-                {Object.keys(cards).map((key) => (
+                {cards.map((card, index) => (
                     <Card
-                        key={key}
-                        data={cards[Number(key)]}
-                        onEdit={() => handleEdit(Number(key))}
-                        onDelete={() => handleDelete(Number(key))}
+                        key={card.id}
+                        data={card}
+                        onEdit={() => handleEdit(index)}
+                        onDelete={() => handleDelete(card.id.toString())}
                     />
                 ))}
             </div>
