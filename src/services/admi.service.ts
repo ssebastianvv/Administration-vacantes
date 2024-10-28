@@ -10,7 +10,7 @@ export class CoderService {
 
     async findAll(): Promise<IVacancyResponse> {
         try {
-            const response = await this.httpClient.get<IVacancyResponse>("vacancies"); // Cambia el endpoint si es necesario
+            const response = await this.httpClient.get<IVacancyResponse>("vacants"); // Cambia el endpoint si es necesario
             return response; 
         } catch (error) {
             console.error("Error al obtener vacancies:", error);
@@ -20,7 +20,7 @@ export class CoderService {
 
     async destroy(id: string): Promise<void> {
         try {
-            await this.httpClient.delete(`vacancies/${id}`); // Cambia el endpoint si es necesario
+            await this.httpClient.delete(`vacants/${id}`); // Cambia el endpoint si es necesario
         } catch (error) {
             console.error("Error al eliminar vacancy:", error);
             throw error;
@@ -40,7 +40,7 @@ export class CoderService {
 
     async update(id: string, vacancy: IVacancy | ICompany): Promise<IVacancy | ICompany> {
         try {
-            const endpoint = vacancy.hasOwnProperty('title') ? `vacancies/${id}` : `company/${id}`; // Cambia según el tipo
+            const endpoint = vacancy.hasOwnProperty('title') ? `vacants/${id}` : `company/${id}`; // Cambia según el tipo
             const response = await this.httpClient.update<IVacancy | ICompany, IVacancy | ICompany>(endpoint, vacancy);
             return response;
         } catch (error) {
